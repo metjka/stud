@@ -4,5 +4,5 @@
  * kot
  */
 interface IRomanNumeralsConverter {
-    open fun convert(number: String): Int
+    open fun convert (number: String): Int
 }
