@@ -1,8 +1,8 @@
 import org.junit.Assert
+
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-
 /**
  * Created by isalnikov on 8/1/2016.
  * Time 2:55 PM
@@ -11,6 +11,14 @@ import kotlin.test.assertTrue
 class Stud {
 
     var romanNumConverter = RomanNumeralsConverter()
+
+    @Test
+    fun dummyTest() {
+        var list = arrayListOf("a","b","v")
+        println(list)
+        println(list.size)
+        println(list.lastIndex)
+    }
 
     @Test
     fun checkWhenNumbersIsEmpty() {
@@ -104,18 +112,6 @@ class Stud {
         assertEquals(num7, 7)
         assertEquals(num8, 8)
         assertEquals(num9, 9)
-    }
-
-    //@Test
-    fun dummyTest() {
-        while (true) {
-            for (i in 1..10) {
-                println(i)
-                if (i == 5) {
-                    break
-                }
-            }
-        }
     }
 
 }

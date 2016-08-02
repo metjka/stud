@@ -29,22 +29,51 @@ class RomanNumeralsConverter : IRomanNumeralsConverter {
 
     private fun advancedConverter(uppercaseNum: CharArray): Int {
         var list: Array<Char> = uppercaseNum.toTypedArray()
-        var sum: Int = 0
+        var num: Int = 0
         while (list.isNotEmpty()) {
             val lastIndex = list.lastIndex
             val last = basicConverter(list.last())
             var dummySum: Int = last
             var c: Int = 0
-            if (lastIndex > 3) {
-                for (i in lastIndex downTo lastIndex - 3) {
-                    if (last >= basicConverter(list[i])) {
-                        c++
-                        dummySum += basicConverter(list[i])
-                    } else if (last < basicConverter(list[i])) {
-                        break
+            when {
+                lastIndex > 3 -> {
+                    for (i in lastIndex downTo list.size - 3) {
+                        if (last >= basicConverter(list[i])) {
+                            c++
+                            dummySum += basicConverter(list[i])
+                        } else if (last < basicConverter(list[i])) {
+                            break
+                        }
                     }
                 }
+                lastIndex == 3->{
+                    for (i in lastIndex downTo lastIndex - 2) {
+                        if (last >= basicConverter(list[i])) {
+                            c++
+                            dummySum += basicConverter(list[i])
+                        } else if (last < basicConverter(list[i])) {
+                            break
+                        }
+                    }
+                }
+                lastIndex == 2 ->{
+                    for (i in lastIndex downTo lastIndex - 2) {
+                        if (last >= basicConverter(list[i])) {
+                            c++
+                            dummySum += basicConverter(list[i])
+                        } else if (last < basicConverter(list[i])) {
+                            break
+                        }
+                    }
+                }
+                lastIndex == 1 ->{
+                    num += basicConverter(list.last())
+                }
+                else -> {
+                    IllegalArgumentException("Number is funny!")
+                }
             }
+
             var ac = advancedSum(list.takeLast(c))
             list = list.dropLast(c).toTypedArray()
         }
@@ -64,7 +93,6 @@ class RomanNumeralsConverter : IRomanNumeralsConverter {
         }
     }
 
-
     private fun advancedSum(lis: List<Char>) {
 
         val numlist: List<Int> = lis.map { it -> basicConverter(it) }
@@ -73,8 +101,8 @@ class RomanNumeralsConverter : IRomanNumeralsConverter {
         var num: Int = 0
 
         if (maxIndex == numlist.lastIndex) {
-            for (i in  0..numlist.lastIndex - 1) {
-                 numlist.get(i)
+            for (i in  0..numlist.lastIndex - 2) {
+                numlist[i]
             }
         }
 
