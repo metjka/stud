@@ -37,6 +37,7 @@ class RomanNumeralsConverter : IRomanNumeralsConverter {
             var c: Int = 0
             when {
                 lastIndex > 3 -> {
+                    //todo possible bug
                     for (i in lastIndex downTo list.size - 3) {
                         if (last >= basicConverter(list[i])) {
                             c++
@@ -97,7 +98,7 @@ class RomanNumeralsConverter : IRomanNumeralsConverter {
 
         val numlist: List<Int> = lis.map { it -> basicConverter(it) }
         val maxIndex: Int? = numlist.maxBy { numlist[it] } ?: -1
-
+        //todo implement
         var num: Int = 0
 
         if (maxIndex == numlist.lastIndex) {
