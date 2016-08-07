@@ -3,6 +3,7 @@ import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+
 /**
  * Created by isalnikov on 8/1/2016.
  * Time 2:55 PM
@@ -12,13 +13,6 @@ class Stud {
 
     var romanNumConverter = RomanNumeralsConverter()
 
-    @Test
-    fun dummyTest() {
-        var list = arrayListOf("a","b","v")
-        println(list)
-        println(list.size)
-        println(list.lastIndex)
-    }
 
     @Test
     fun checkWhenNumbersIsEmpty() {
@@ -112,6 +106,23 @@ class Stud {
         assertEquals(num7, 7)
         assertEquals(num8, 8)
         assertEquals(num9, 9)
+    }
+
+    @Test
+    fun checkHardNumbersForLowerCase() {
+        val num2 = romanNumConverter.convert("MMMCMXCIX".toLowerCase())
+        val num3 = romanNumConverter.convert("MCMLXXXVIII".toLowerCase())
+        assertEquals(num2, 3999)
+        assertEquals(num3, 1988)
+    }
+
+    @Test
+    fun wrongRomainNumber() {
+        try {
+            romanNumConverter.convert("ABC")
+        } catch (e :RuntimeException) {
+            assertTrue { e is IllegalArgumentException }
+        }
     }
 
 }

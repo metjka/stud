@@ -3,112 +3,42 @@
  * Time 3:42 PM
  * kot
  */
-class RomanNumeralsConverter : IRomanNumeralsConverter {
+class RomanNumeralsConverter {
 
+    val regex = Regex("^(M{0,3})(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$")
 
-    val MAIN_NUM = "IVXLCDM".toUpperCase().toCharArray()
+    fun convert(num: String): Int {
+        val numToUpperCase = num.toUpperCase()
+        if (regex.matches(numToUpperCase)) {
+            return toArabic(num.toUpperCase())
+        }
+        throw IllegalArgumentException("This is not romain number!")
+    }
 
-    private val I = 1
-    private val V = 5
-    private val X = 10
-    private val L = 50
-    private val C = 100
-    private val D = 500
-    private val M = 1000
-
-    override fun convert(number: String): Int {
-        val uppercaseNum: CharArray = number.toUpperCase().trim().toCharArray()
-        val count = uppercaseNum.count()
-
+    fun toArabic(romainNumber: String): Int {
         when {
-            count == 1 -> return basicConverter(uppercaseNum[0])
-            count > 1 -> return advancedConverter(uppercaseNum)
-            else -> throw IllegalArgumentException("String is funny!")
+            romainNumber.isEmpty() -> return 0
+            romainNumber.startsWith("M") -> return 1000 + toArabic(romainNumber.removeRange(0, 1))
+            romainNumber.startsWith("CM") -> return 900 + toArabic(romainNumber.removeRange(0, 2))
+            romainNumber.startsWith("D") -> return 500 + toArabic(romainNumber.removeRange(0, 1))
+            romainNumber.startsWith("CD") -> return 400 + toArabic(romainNumber.removeRange(0, 2))
+            romainNumber.startsWith("C") -> return 100 + toArabic(romainNumber.removeRange(0, 1))
+            romainNumber.startsWith("XC") -> return 90 + toArabic(romainNumber.removeRange(0, 2))
+            romainNumber.startsWith("L") -> return 50 + toArabic(romainNumber.removeRange(0, 1))
+            romainNumber.startsWith("XL") -> return 40 + toArabic(romainNumber.removeRange(0, 2))
+            romainNumber.startsWith("X") -> return 10 + toArabic(romainNumber.removeRange(0, 1))
+            romainNumber.startsWith("IX") -> return 9 + toArabic(romainNumber.removeRange(0, 2))
+            romainNumber.startsWith("V") -> return 5 + toArabic(romainNumber.removeRange(0, 1))
+            romainNumber.startsWith("IV") -> return 4 + toArabic(romainNumber.removeRange(0, 2))
+            romainNumber.startsWith("I") -> return 1 + toArabic(romainNumber.removeRange(0, 1))
+            else -> throw IllegalArgumentException("Wrong romain number!")
         }
     }
 
-    private fun advancedConverter(uppercaseNum: CharArray): Int {
-        var list: Array<Char> = uppercaseNum.toTypedArray()
-        var num: Int = 0
-        while (list.isNotEmpty()) {
-            val lastIndex = list.lastIndex
-            val last = basicConverter(list.last())
-            var dummySum: Int = last
-            var c: Int = 0
-            when {
-                lastIndex > 3 -> {
-                    //todo possible bug
-                    for (i in lastIndex downTo list.size - 3) {
-                        if (last >= basicConverter(list[i])) {
-                            c++
-                            dummySum += basicConverter(list[i])
-                        } else if (last < basicConverter(list[i])) {
-                            break
-                        }
-                    }
-                }
-                lastIndex == 3->{
-                    for (i in lastIndex downTo lastIndex - 2) {
-                        if (last >= basicConverter(list[i])) {
-                            c++
-                            dummySum += basicConverter(list[i])
-                        } else if (last < basicConverter(list[i])) {
-                            break
-                        }
-                    }
-                }
-                lastIndex == 2 ->{
-                    for (i in lastIndex downTo lastIndex - 2) {
-                        if (last >= basicConverter(list[i])) {
-                            c++
-                            dummySum += basicConverter(list[i])
-                        } else if (last < basicConverter(list[i])) {
-                            break
-                        }
-                    }
-                }
-                lastIndex == 1 ->{
-                    num += basicConverter(list.last())
-                }
-                else -> {
-                    IllegalArgumentException("Number is funny!")
-                }
-            }
-
-            var ac = advancedSum(list.takeLast(c))
-            list = list.dropLast(c).toTypedArray()
-        }
-        return 1;
+    fun toRomain(): String {
+        return "I"
     }
 
-    private fun basicConverter(later: Char): Int {
-        when (later) {
-            'I' -> return I
-            'V' -> return V
-            'X' -> return X
-            'L' -> return L
-            'C' -> return C
-            'D' -> return D
-            'M' -> return M
-            else -> throw IllegalArgumentException("Number is invalid!")
-        }
-    }
-
-    private fun advancedSum(lis: List<Char>) {
-
-        val numlist: List<Int> = lis.map { it -> basicConverter(it) }
-        val maxIndex: Int? = numlist.maxBy { numlist[it] } ?: -1
-        //todo implement
-        var num: Int = 0
-
-        if (maxIndex == numlist.lastIndex) {
-            for (i in  0..numlist.lastIndex - 2) {
-                numlist[i]
-            }
-        }
-
-
-    }
 
 }
 
